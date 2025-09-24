@@ -1,20 +1,32 @@
 import 'package:batallanaval/flotilla.dart';
+import 'package:batallanaval/punto.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('Cuando creo una flotilla debe de tener 5 tipos de barcos', () {
-    var barcosNumero = [Barco(TiposBarcos.bote)];
-    expect(
-      () => Flotilla(barcosNumero),
-      throwsA(isA<FlotillaCantidadExcepcion>())
-    );
+  test('Flotilla con menos de 5 barcos debe fallar', () {
+    var barco1 = Barco(tipo: TiposBarcos.bote, posicionInicial: Punto(fila: 1, columna: 1), direccion: DireccionesHacia.derecha);
+    expect(() => Flotilla([barco1]), throwsA(isA<FlotillaCantidadExcepcion>()));
   });
   
-  var barcosIncorrectos = [
-    Barco(TiposBarcos.bote),
-    Barco(TiposBarcos.crucero),
-    Barco(TiposBarcos.lancha),
-    Barco(TiposBarcos.portaaviones),
-    Barco(TiposBarcos.portaaviones),
-  ];
+  test('Flotilla con tipos duplicados debe fallar', () {
+    var barcos = [
+      Barco(tipo: TiposBarcos.bote, posicionInicial: Punto(fila: 1, columna: 1), direccion: DireccionesHacia.derecha),
+      Barco(tipo: TiposBarcos.bote, posicionInicial: Punto(fila: 2, columna: 1), direccion: DireccionesHacia.derecha),
+      Barco(tipo: TiposBarcos.lancha, posicionInicial: Punto(fila: 3, columna: 1), direccion: DireccionesHacia.derecha),
+      Barco(tipo: TiposBarcos.submarino, posicionInicial: Punto(fila: 4, columna: 1), direccion: DireccionesHacia.derecha),
+      Barco(tipo: TiposBarcos.crucero, posicionInicial: Punto(fila: 5, columna: 1), direccion: DireccionesHacia.derecha),
+    ];
+    expect(() => Flotilla(barcos), throwsA(isA<FlotillaTiposExcepcion>()));
+  });
+  
+  test('Flotilla con posicion incorrecta debe fallar', () {
+    var barcos = [
+      Barco(tipo: TiposBarcos.bote, posicionInicial: Punto(fila: 1, columna: 1), direccion: DireccionesHacia.derecha),
+      Barco(tipo: TiposBarcos.lancha, posicionInicial: Punto(fila: 2, columna: 1), direccion: DireccionesHacia.derecha),
+      Barco(tipo: TiposBarcos.submarino, posicionInicial: Punto(fila: 3, columna: 1), direccion: DireccionesHacia.derecha),
+      Barco(tipo: TiposBarcos.crucero, posicionInicial: Punto(fila: 4, columna: 1), direccion: DireccionesHacia.derecha),
+      Barco(tipo: TiposBarcos.portaaviones, posicionInicial: Punto(fila: 5, columna: 1), direccion: DireccionesHacia.derecha),
+    ];
+    expect(() => Flotilla(barcos), throwsA(isA<FlotillaPosicionExcepcion>()));
+  });
 }
