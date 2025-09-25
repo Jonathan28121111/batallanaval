@@ -65,7 +65,36 @@ class Flotilla {
 }
 
 bool estanEnPosicionAdecuada(List<Barco> barcos) {
-  return false;
+   List<Set<String>> posicionesPorBarco = [];
+  
+  for (var barco in barcos) {
+    Set<String> posiciones = {};
+    for (var elemento in barco._elementos) {
+      posiciones.add('${elemento.punto.fila},${elemento.punto.columna}');
+    }
+    posicionesPorBarco.add(posiciones);
+  }
+  
+  for (int i = 0; i < posicionesPorBarco.length; i++) {
+    for (int j = i + 1; j < posicionesPorBarco.length; j++) {
+      for (String pos1 in posicionesPorBarco[i]) {
+        var coords1 = pos1.split(',');
+        int fila1 = int.parse(coords1[0]);
+        int col1 = int.parse(coords1[1]);
+        
+        for (String pos2 in posicionesPorBarco[j]) {
+          var coords2 = pos2.split(',');
+          int fila2 = int.parse(coords2[0]);
+          int col2 = int.parse(coords2[1]);
+          if ((fila1 - fila2).abs() <= 1 && (col1 - col2).abs() <= 1) {
+            return false;
+          }
+        }
+      }
+    }
+  }
+  
+  return true;
 }
 
 bool esCantidadCorrecta(List<Barco> barcos) {
