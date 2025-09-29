@@ -3,7 +3,7 @@ import 'package:batallanaval/punto.dart';
 import 'package:test/test.dart';
 
 void main() {
-  test('Flotilla con menos de 5 barcos debe fallar', () {
+  test('Flotilla con menos de 5 barcos', () {
     var barcos = [
       Barco(tipo: TiposBarcos.bote, posicionInicial: Punto(fila: 1, columna: 1), direccion: DireccionesHacia.derecha),
       Barco(tipo: TiposBarcos.lancha, posicionInicial: Punto(fila: 2, columna: 1), direccion: DireccionesHacia.derecha),
